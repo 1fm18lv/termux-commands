@@ -1,0 +1,112 @@
+#!/data/data/com.termux/files/usr/bin/bash
+#set -e -u
+
+tlng () {
+echo
+echo -e "Usage:"
+echo
+echo -e "crt [File] [Optional], or"
+echo -e "crt [Subcommands] [Value] [File] [Optional]"
+echo
+echo -e "Optional is sub commands for chmod"
+echo -e "for example:   crt joy.txt +x (for chmod +x)"
+echo
+echo -e "SubCommands:"
+echo -e "--echo\t-e combination touch + echo + chmod"
+echo -e "\t   usage: crt [-e|--echo] [text] [file] [optional]"
+echo -e "\t   example: crt -e \"saya suka anda\" file.txt 700"
+echo
+echo -e "--text\t-t combination touch + text editor + chmod"
+echo -e "\t   usage: crt [-t|--text] [text editort] [file] [optional]"
+echo -e "\t   example: crt -t nano file.txt 700"
+echo
+exit 0
+}
+
+# For echo
+
+elo () {
+# example == crt --echo 'cara makan kerupuk dengan benar' text.txt +x
+# info	  == $0    $1                 $2                     $3    $4
+
+if [ -z $lima ];then
+	if [ -z $empat ]; then
+		touch $tiga
+		echo $dua >> $tiga
+	else
+		touch $tiga
+		echo $dua >> $tiga
+		chmod $empat $tiga
+	fi
+else
+	echo -e '\e[95m\e[1mPlease press crt -h or crt --help for more information!!\e[0m'
+	exit 2
+fi
+
+}
+
+
+# For text
+
+text () {
+# example == crt --text nano text.txt +x
+# info    == $0    $1    $2    $3     $4
+
+if [ -z $lima ];then
+        if [ -z $empat ]; then
+                touch $tiga
+                $dua $tiga
+        else
+                touch $tiga
+                chmod $empat $tiga
+		$dua $tiga
+        fi
+else
+        echo -e '\e[95m\e[1mPlease press crt -h or crt --help for more information!!\e[0m'
+	exit 3
+fi
+
+}
+
+
+# For original
+
+ori () {
+# example == crt text.txt +x
+# info    == $0     $1    $2
+
+if [[ $tiga ==  '' ]];then
+	if [ -z $dua ]; then
+                touch $satu
+       	else
+               	touch $satu
+               	chmod $dua $satu
+        fi
+else
+        echo -e '\e[95m\e[1mPlease press crt -h or crt --help for more information!!\e[0m'
+	exit 4
+fi
+
+
+}
+
+
+if [ -z $1 ];then
+	echo -e '\e[95m\e[1mPlease press crt -h or crt --help for more information!!\e[0m'
+	exit 1
+else
+
+	satu=$1
+	dua=$2
+	tiga=$3
+	empat=$4
+	lima=$5
+
+	case "$1" in
+		-h | --help) tlng;;
+		-e | --echo) elo;;
+		-t | --text) text;;
+		-*) echo -e '\e[95m\e[1mPlease press crt -h or crt --help for more information!!\e[0m';;
+		*) ori;;
+	esac
+fi
